@@ -1,0 +1,212 @@
+/* ============================================================
+   Dashboard Page Styles
+   ============================================================ */
+
+/* ── Welcome ── */
+
+.dashboard__welcome {
+    margin-bottom: var(--space-6);
+}
+
+.dashboard__greeting {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: var(--leading-tight);
+}
+
+/* ── Sections ── */
+
+.dashboard__section {
+    margin-bottom: var(--space-8);
+}
+
+.dashboard__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.dashboard__section-title {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-3);
+}
+
+.dashboard__section-header .dashboard__section-title {
+    margin-bottom: 0;
+}
+
+.dashboard__view-all {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-link);
+}
+
+/* ── Stats Grid ── */
+
+.dashboard__stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+}
+
+.dashboard__stat-label {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-snug);
+}
+
+.dashboard__stat-value {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.dashboard__stat-value--currency {
+    color: var(--color-primary-800);
+}
+
+.dashboard__stat-value--pending {
+    color: var(--color-warning);
+}
+
+/* ── Quick Actions ── */
+
+.dashboard__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* ── Invoice List ── */
+
+.dashboard__invoices-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.dashboard__invoice-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+.dashboard__invoice-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard__invoice-name {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dashboard__invoice-number {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    margin-top: 2px;
+}
+
+.dashboard__invoice-type {
+    color: var(--color-info);
+    font-weight: var(--font-medium);
+}
+
+.dashboard__invoice-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: var(--space-3);
+}
+
+.dashboard__invoice-amount {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+}
+
+.dashboard__invoice-date {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+}
+
+/* ── Empty State ── */
+
+.dashboard__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+}
+
+.dashboard__empty-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-3);
+}
+
+.dashboard__empty-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.dashboard__empty-subtitle {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+}
+
+/* ── Error State ── */
+
+.dashboard__error {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.dashboard__error p {
+    font-size: var(--text-sm);
+    color: var(--color-error);
+}
+
+/* ── Logout Button ── */
+
+.dashboard__logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    color: var(--text-tertiary);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.dashboard__logout-btn:hover {
+    background-color: var(--color-error-light);
+    color: var(--color-error);
+}
