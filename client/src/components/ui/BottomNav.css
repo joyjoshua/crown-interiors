@@ -1,0 +1,107 @@
+/* ============================================================
+   BottomNav Component Styles
+   iOS-style fixed bottom tab bar
+   ============================================================ */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--border-light);
+    padding-bottom: var(--safe-area-bottom);
+}
+
+.bottom-nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: var(--bottom-nav-height);
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* === NAV ITEM === */
+
+.bottom-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 1;
+    height: 100%;
+    text-decoration: none;
+    color: var(--text-tertiary);
+    position: relative;
+    transition: color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav__item--active {
+    color: var(--color-primary-700);
+}
+
+.bottom-nav__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+}
+
+.bottom-nav__label {
+    font-size: 10px;
+    font-weight: var(--font-medium);
+    letter-spacing: 0.02em;
+}
+
+/* Active indicator dot */
+.bottom-nav__indicator {
+    position: absolute;
+    top: 4px;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary-700);
+}
+
+/* === CENTER BUTTON (+) === */
+
+.bottom-nav__item--center {
+    position: relative;
+}
+
+.bottom-nav__center-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-800));
+    color: white;
+    box-shadow:
+        0 4px 12px rgba(255, 160, 0, 0.35),
+        0 1px 3px rgba(255, 160, 0, 0.2);
+    margin-top: -16px;
+    transition: box-shadow var(--transition-fast);
+}
+
+.bottom-nav__center-btn:hover {
+    box-shadow:
+        0 6px 16px rgba(255, 160, 0, 0.45),
+        0 2px 4px rgba(255, 160, 0, 0.25);
+}
+
+/* === HIDE ON DESKTOP === */
+
+@media (min-width: 1024px) {
+    .bottom-nav {
+        display: none;
+    }
+}

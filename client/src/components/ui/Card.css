@@ -1,0 +1,72 @@
+/* ============================================================
+   Card Component Styles
+   Elevated, rounded, Apple HIG depth
+   ============================================================ */
+
+.card {
+    border-radius: var(--radius-lg);
+    transition:
+        box-shadow var(--transition-base),
+        transform var(--transition-base),
+        border-color var(--transition-base);
+    overflow: hidden;
+}
+
+/* === VARIANTS === */
+
+.card--elevated {
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+}
+
+.card--outlined {
+    background-color: var(--bg-card);
+    border: 1.5px solid var(--border-light);
+}
+
+.card--filled {
+    background-color: var(--bg-tertiary);
+}
+
+/* === PADDING === */
+
+.card--p-none {
+    padding: 0;
+}
+
+.card--p-sm {
+    padding: var(--space-3);
+}
+
+.card--p-default {
+    padding: var(--space-4);
+}
+
+.card--p-lg {
+    padding: var(--space-6);
+}
+
+/* === INTERACTIVE === */
+
+.card--hoverable:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card--clickable {
+    cursor: pointer;
+}
+
+.card--clickable:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card--clickable:active {
+    box-shadow: var(--shadow-sm);
+}
+
+/* === FOCUS === */
+
+.card--clickable:focus-visible {
+    outline: 3px solid var(--border-focus);
+    outline-offset: 2px;
+}

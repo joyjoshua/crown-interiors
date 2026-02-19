@@ -1,0 +1,75 @@
+/* ============================================================
+   TopBar Component Styles
+   ============================================================ */
+
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    background-color: rgba(250, 250, 248, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border-light);
+}
+
+.top-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--top-bar-height);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+}
+
+.top-bar__left,
+.top-bar__right {
+    display: flex;
+    align-items: center;
+    min-width: 44px;
+}
+
+.top-bar__right {
+    justify-content: flex-end;
+}
+
+.top-bar__center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.top-bar__title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+}
+
+/* Back button */
+.top-bar__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    color: var(--color-info);
+    transition: background-color var(--transition-fast);
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.top-bar__back:hover {
+    background-color: var(--color-info-light);
+}
+
+.top-bar__back:active {
+    background-color: rgba(0, 122, 255, 0.12);
+}

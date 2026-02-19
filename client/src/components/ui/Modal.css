@@ -1,0 +1,79 @@
+/* ============================================================
+   Modal Component Styles
+   ============================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--space-4);
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-overlay);
+    z-index: var(--z-modal-backdrop);
+}
+
+.modal-content {
+    position: relative;
+    z-index: var(--z-modal);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content--sm {
+    max-width: 320px;
+}
+
+.modal-content--default {
+    max-width: 420px;
+}
+
+.modal-content--lg {
+    max-width: 540px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-5) var(--space-3);
+}
+
+.modal-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+}
+
+.modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    transition: background-color var(--transition-fast);
+    border: none;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background-color: var(--color-neutral-200);
+}
+
+.modal-body {
+    padding: var(--space-3) var(--space-5) var(--space-5);
+}

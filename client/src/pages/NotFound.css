@@ -1,0 +1,38 @@
+/* ============================================================
+   NotFound Page Styles
+   ============================================================ */
+
+.not-found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--space-4);
+    animation: fadeIn 400ms ease;
+}
+
+.not-found__content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.not-found__emoji {
+    font-size: 64px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.not-found__title {
+    font-size: 72px;
+    font-weight: var(--font-bold);
+    color: var(--color-primary-700);
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.not-found__text {
+    font-size: var(--text-lg);
+    color: var(--text-secondary);
+}

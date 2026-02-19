@@ -1,0 +1,111 @@
+{
+    "nav": {
+        "home": "Home",
+        "newInvoice": "New",
+        "history": "History"
+    },
+    "login": {
+        "title": "Welcome Back",
+        "subtitle": "Crown Interiors",
+        "email": "Email",
+        "password": "Password",
+        "submit": "Login",
+        "error": "Invalid email or password"
+    },
+    "dashboard": {
+        "greeting": "Good {{timeOfDay}}, {{name}}",
+        "quickStats": "Quick Stats",
+        "invoicesThisMonth": "Invoices This Month",
+        "revenueThisMonth": "Revenue This Month",
+        "createInvoice": "Create New Invoice",
+        "createEstimate": "Create New Estimate",
+        "recentInvoices": "Recent Invoices",
+        "viewAll": "View All"
+    },
+    "invoice": {
+        "title": "Invoice",
+        "estimate": "Estimate",
+        "new": "New Invoice",
+        "newEstimate": "New Estimate",
+        "edit": "Edit Invoice",
+        "step1": "Customer",
+        "step2": "Services",
+        "step3": "Details",
+        "step4": "Preview",
+        "customerName": "Customer Name",
+        "phone": "Phone Number",
+        "address": "Address",
+        "email": "Email (Optional)",
+        "addService": "Add Service",
+        "serviceDescription": "Service Description",
+        "quantity": "Qty",
+        "rate": "Rate (₹)",
+        "amount": "Amount",
+        "subtotal": "Subtotal",
+        "tax": "GST",
+        "taxPercentage": "Tax %",
+        "discount": "Discount",
+        "total": "Total",
+        "date": "Date",
+        "dueDate": "Due Date",
+        "notes": "Notes / Terms",
+        "next": "Next",
+        "previous": "Previous",
+        "preview": "Preview",
+        "create": "Create Invoice",
+        "update": "Update Invoice",
+        "moreOptions": "More Options"
+    },
+    "success": {
+        "invoiceCreated": "Invoice Created!",
+        "estimateCreated": "Estimate Created!",
+        "shareWhatsApp": "Share via WhatsApp",
+        "downloadPDF": "Download PDF",
+        "createAnother": "Create Another"
+    },
+    "history": {
+        "title": "Invoice History",
+        "search": "Search invoices...",
+        "all": "All",
+        "invoices": "Invoices",
+        "estimates": "Estimates",
+        "paid": "Paid",
+        "pending": "Pending",
+        "draft": "Draft",
+        "noInvoices": "No invoices yet",
+        "noInvoicesSubtext": "Create your first invoice to get started"
+    },
+    "actions": {
+        "download": "Download",
+        "share": "Share",
+        "duplicate": "Duplicate",
+        "delete": "Delete",
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "save": "Save",
+        "undo": "Undo",
+        "logout": "Logout"
+    },
+    "confirm": {
+        "deleteTitle": "Delete Invoice?",
+        "deleteMessage": "This action cannot be undone. Are you sure?",
+        "duplicateTitle": "Duplicate Invoice?",
+        "duplicateMessage": "Create a new invoice from {{invoiceNumber}}?"
+    },
+    "errors": {
+        "required": "This field is required",
+        "invalidEmail": "Invalid email address",
+        "invalidPhone": "Invalid phone number",
+        "minServices": "Add at least one service",
+        "serverError": "Something went wrong. Please try again."
+    },
+    "toast": {
+        "saved": "Invoice saved!",
+        "deleted": "Invoice deleted",
+        "duplicated": "Invoice duplicated",
+        "downloaded": "PDF downloaded",
+        "shared": "Opened WhatsApp",
+        "draftSaved": "Draft auto-saved"
+    }
+}
