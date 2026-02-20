@@ -1,0 +1,85 @@
+/* ============================================================
+   ProgressIndicator — Multi-step form progress
+   ============================================================ */
+
+.progress {
+    margin-bottom: var(--space-6);
+}
+
+/* Fill bar */
+.progress__bar {
+    height: 4px;
+    background-color: var(--color-neutral-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+}
+
+.progress__fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary-600), var(--color-primary-800));
+    border-radius: var(--radius-full);
+}
+
+/* Steps row */
+.progress__steps {
+    display: flex;
+    justify-content: space-between;
+}
+
+.progress__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    flex: 1;
+}
+
+/* Dot */
+.progress__dot {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: var(--font-semibold);
+    color: var(--text-tertiary);
+    background-color: var(--color-neutral-100);
+    border: 2px solid var(--color-neutral-200);
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.progress__step--active .progress__dot {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    color: white;
+}
+
+.progress__step--done .progress__dot {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+}
+
+/* Label */
+.progress__label {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    font-weight: var(--font-medium);
+    text-align: center;
+    transition: color var(--transition-fast);
+}
+
+.progress__step--active .progress__label {
+    color: var(--text-primary);
+    font-weight: var(--font-semibold);
+}
+
+.progress__step--done .progress__label {
+    color: var(--color-success);
+}
