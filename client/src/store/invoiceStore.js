@@ -67,6 +67,7 @@ export const useInvoiceStore = create((set, get) => ({
   // === COMPUTED ===
   getFilteredInvoices: () => {
     const { invoices, filters } = get();
+    if (!Array.isArray(invoices)) return [];
     let filtered = [...invoices];
 
     // Search filter

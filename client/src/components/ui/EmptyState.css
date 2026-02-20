@@ -1,0 +1,60 @@
+/* ============================================================
+   EmptyState Component Styles
+   ============================================================ */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-10) var(--space-6);
+    text-align: center;
+    gap: var(--space-3);
+}
+
+.empty-state__icon {
+    font-size: 52px;
+    line-height: 1;
+    display: block;
+}
+
+.empty-state__title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.empty-state__subtitle {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    line-height: var(--leading-normal);
+    max-width: 260px;
+    margin: 0;
+}
+
+.empty-state__action {
+    margin-top: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+    height: 44px;
+    padding: 0 var(--space-6);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--text-inverse);
+    background: var(--color-primary-700);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.empty-state__action:hover {
+    background: var(--color-primary-800);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state__action:active {
+    transform: scale(0.97);
+}

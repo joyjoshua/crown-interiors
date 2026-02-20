@@ -1,0 +1,193 @@
+/* ============================================================
+   InvoiceHistory Page Styles
+   ============================================================ */
+
+/* ── Search row ── */
+.history-search-row {
+    margin-bottom: var(--space-3);
+}
+
+/* ── Type filter chips ── */
+.history-chips {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    margin-bottom: var(--space-3);
+}
+
+.history-chips::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Toolbar (status chips + sort) ── */
+.history-toolbar {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    min-height: 36px;
+}
+
+.history-status-chips {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    padding-bottom: 2px;
+}
+
+.history-status-chips::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Sort dropdown ── */
+.history-sort {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.history-sort__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    height: 34px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    border: 1.5px solid var(--border-light);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.history-sort__btn:hover {
+    background: var(--color-neutral-200);
+    color: var(--text-primary);
+}
+
+.history-sort__menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    z-index: 40;
+    min-width: 140px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    padding: var(--space-1) 0;
+}
+
+.history-sort__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--font-regular);
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color var(--transition-fast);
+}
+
+.history-sort__option:hover {
+    background: var(--bg-tertiary);
+}
+
+.history-sort__option--active {
+    color: var(--color-primary-700);
+    font-weight: var(--font-medium);
+}
+
+/* ── Results count ── */
+.history-count {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-3);
+    padding-left: var(--space-1);
+}
+
+/* ── Invoice list ── */
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-bottom: var(--space-8);
+    /* clear bottom nav */
+}
+
+/* ── Invoice card internals ── */
+.history-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.history-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.history-card__name {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--space-1) 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+}
+
+.history-card__number {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    font-weight: var(--font-regular);
+}
+
+.history-card__type {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
+    font-style: italic;
+}
+
+.history-card__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.history-card__amount {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.history-card__date {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+}

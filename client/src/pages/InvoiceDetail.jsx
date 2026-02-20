@@ -279,7 +279,14 @@ const InvoiceDetail = () => {
     // ── Computed values ──
     const isEstimate = invoice.document_type === 'estimate';
     const docLabel = isEstimate ? t('invoice.estimate') : t('invoice.title');
-    const services = invoice.services || [];
+    // Parse `services` — Supabase may return JSONB as a string
+    let services = invoice.services || [];
+    if (typeof services === 'string') {
+        try { services = JSON.parse(services); } catch { services = []; }
+    }
+    if (!Array.isArray(services)) services = [];
+    // Coerce tax_enabled to boolean (backend may return 0/1 integers)
+    const taxEnabled = Boolean(invoice.tax_percentage > 0 && (invoice.tax_enabled || invoice.tax_amount > 0));
 
     return (
         <>
@@ -459,7 +466,7 @@ const InvoiceDetail = () => {
                             <span>Subtotal</span>
                             <span>{formatCurrency(invoice.subtotal, false)}</span>
                         </div>
-                        {invoice.tax_enabled && (
+                        {taxEnabled && (
                             <div className="detail-preview__totals-row">
                                 <span>GST ({invoice.tax_percentage}%)</span>
                                 <span>{formatCurrency(invoice.tax_amount, false)}</span>

@@ -1,0 +1,73 @@
+/* ============================================================
+   SearchBar Component Styles
+   ============================================================ */
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    overflow: hidden;
+}
+
+.search-bar:focus-within {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.12);
+    background: var(--bg-secondary);
+}
+
+.search-bar__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: var(--space-4);
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    pointer-events: none;
+}
+
+.search-bar__input {
+    flex: 1;
+    height: 48px;
+    padding: 0 var(--space-3);
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.search-bar__input::placeholder {
+    color: var(--text-tertiary);
+}
+
+/* Hide browser's native search clear button */
+.search-bar__input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search-bar__clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-right: var(--space-2);
+    border-radius: var(--radius-full);
+    color: var(--text-tertiary);
+    background: var(--color-neutral-200);
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.search-bar__clear:hover {
+    background: var(--color-neutral-300);
+    color: var(--text-primary);
+}
