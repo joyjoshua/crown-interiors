@@ -1,0 +1,186 @@
+/* ============================================================
+   ConfirmDialog Component Styles
+   Apple HIG-inspired confirmation dialog
+   ============================================================ */
+
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--space-4);
+}
+
+.confirm-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: var(--bg-overlay);
+    z-index: var(--z-modal-backdrop);
+}
+
+/* ── Card ── */
+
+.confirm-card {
+    position: relative;
+    z-index: var(--z-modal);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    width: 100%;
+    max-width: 340px;
+    overflow: hidden;
+}
+
+/* ── Header ── */
+
+.confirm-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-5) var(--space-2);
+}
+
+.confirm-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin: 0;
+    line-height: var(--leading-snug);
+}
+
+.confirm-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-full);
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    transition: background-color var(--transition-fast);
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.confirm-close:hover {
+    background-color: var(--color-neutral-200);
+}
+
+.confirm-close:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Message ── */
+
+.confirm-message {
+    padding: var(--space-2) var(--space-5) var(--space-4);
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-normal);
+}
+
+/* ── Actions ── */
+
+.confirm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-5) var(--space-5);
+}
+
+/* ── Buttons ── */
+
+.confirm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    height: 44px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        opacity var(--transition-fast);
+    border: none;
+    user-select: none;
+    -webkit-user-select: none;
+    white-space: nowrap;
+}
+
+.confirm-btn:active {
+    transform: scale(0.97);
+}
+
+.confirm-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.confirm-btn:disabled:active {
+    transform: none;
+}
+
+/* Cancel */
+.confirm-btn--cancel {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.confirm-btn--cancel:hover:not(:disabled) {
+    background-color: var(--color-neutral-200);
+    color: var(--text-primary);
+}
+
+/* Destructive — SOLID red background, white text */
+.confirm-btn--destructive {
+    background-color: var(--color-error);
+    color: var(--text-inverse);
+}
+
+.confirm-btn--destructive:hover:not(:disabled) {
+    background-color: #E0342A;
+    box-shadow: 0 2px 8px rgba(255, 59, 48, 0.35);
+}
+
+.confirm-btn--destructive:active:not(:disabled) {
+    background-color: #CC2D22;
+}
+
+/* Primary (non-destructive confirm) */
+.confirm-btn--primary {
+    background-color: var(--color-primary-700);
+    color: var(--text-inverse);
+}
+
+.confirm-btn--primary:hover:not(:disabled) {
+    background-color: var(--color-primary-800);
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Spinner ── */
+
+.confirm-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: confirm-spin 600ms linear infinite;
+}
+
+@keyframes confirm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
