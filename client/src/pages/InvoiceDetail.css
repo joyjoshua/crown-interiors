@@ -71,6 +71,64 @@
     font-weight: var(--font-medium);
 }
 
+/* ── Status Action Bar ── */
+
+.detail-status-bar {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.detail-status-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex: 1;
+    justify-content: center;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    font-family: var(--font-family);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    border: none;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.detail-status-btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.detail-status-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.detail-status-btn--send {
+    background: var(--color-info-light, #DBEAFE);
+    color: var(--color-info, #2563EB);
+}
+
+.detail-status-btn--send:hover:not(:disabled) {
+    background: #BFDBFE;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+.detail-status-btn--paid {
+    background: var(--color-success-light, #DCFCE7);
+    color: var(--color-success, #16A34A);
+}
+
+.detail-status-btn--paid:hover:not(:disabled) {
+    background: #BBF7D0;
+    box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
+}
+
 /* ── Action Buttons Row ── */
 
 .detail-actions {

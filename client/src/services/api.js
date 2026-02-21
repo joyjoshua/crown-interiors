@@ -38,6 +38,7 @@ export const invoiceApi = {
   getById: (id) => api.get(`/invoices/${id}`),
   create: (data) => api.post('/invoices', data),
   update: (id, data) => api.put(`/invoices/${id}`, data),
+  updateStatus: (id, status) => api.put(`/invoices/${id}/status`, { status }),
   delete: (id) => api.delete(`/invoices/${id}`),
   duplicate: (id) => api.post(`/invoices/${id}/duplicate`),
   generatePdf: (id) => api.get(`/invoices/${id}/pdf`, { responseType: 'blob' }),

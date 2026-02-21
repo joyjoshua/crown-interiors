@@ -93,7 +93,12 @@ const InvoiceHistory = () => {
                 setError(null);
                 const response = await invoiceApi.getAll();
                 const raw = response.data.data;
-                const list = Array.isArray(raw) ? raw : [];
+                // getAll returns { invoices: [], pagination: {} }
+                const list = Array.isArray(raw)
+                    ? raw                          // future-proof: if API ever returns flat array
+                    : Array.isArray(raw?.invoices)
+                        ? raw.invoices             // current shape: { invoices: [], pagination: {} }
+                        : [];
                 setInvoices(list);
             } catch (err) {
                 console.error('History fetch error:', err);

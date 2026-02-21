@@ -54,6 +54,19 @@ const TrashIcon = () => (
     </svg>
 );
 
+const CheckIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+    </svg>
+);
+
+const SendIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13" />
+        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
+);
+
 // ── Status helpers ──
 
 const getStatusBadge = (status) => {
@@ -96,6 +109,7 @@ const InvoiceDetail = () => {
     const [shareLoading, setShareLoading] = useState(false);
     const [duplicateLoading, setDuplicateLoading] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
+    const [statusLoading, setStatusLoading] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // ── Fetch invoice data ──
@@ -119,6 +133,33 @@ const InvoiceDetail = () => {
 
     // ── Actions ──
 
+    // Helper: update status on server and local state
+    const handleStatusChange = async (newStatus) => {
+        try {
+            setStatusLoading(true);
+            const response = await invoiceApi.updateStatus(id, newStatus);
+            setInvoice(response.data.data);
+            toast.success(`Marked as ${newStatus}`);
+        } catch (err) {
+            console.error('Status update error:', err);
+            toast.error(t('errors.serverError'));
+        } finally {
+            setStatusLoading(false);
+        }
+    };
+
+    // Helper: auto-mark as "sent" if currently "draft"
+    const autoMarkSent = async () => {
+        if (invoice?.status === 'draft') {
+            try {
+                const response = await invoiceApi.updateStatus(id, 'sent');
+                setInvoice(response.data.data);
+            } catch {
+                // Silent fail — don't block the main action
+            }
+        }
+    };
+
     const handleDownloadPdf = async () => {
         try {
             setPdfLoading(true);
@@ -136,6 +177,9 @@ const InvoiceDetail = () => {
             window.URL.revokeObjectURL(url);
 
             toast.success(t('toast.downloaded'));
+
+            // Auto-mark as sent after successful download
+            await autoMarkSent();
         } catch (err) {
             console.error('PDF download error:', err);
             toast.error(t('errors.serverError'));
@@ -174,6 +218,7 @@ const InvoiceDetail = () => {
                         text: plainMessage,
                     });
                     toast.success(t('toast.shared'));
+                    await autoMarkSent();
                     return;
                 }
             } catch (err) {
@@ -190,6 +235,7 @@ const InvoiceDetail = () => {
         const encodedMessage = encodeURIComponent(plainMessage);
         window.open(`https://wa.me/${phoneParam}?text=${encodedMessage}`, '_blank');
         toast.success(t('toast.shared'));
+        await autoMarkSent();
     };
 
     const handleDuplicate = async () => {
@@ -316,6 +362,40 @@ const InvoiceDetail = () => {
                         {formatDate(invoice.invoice_date)}
                     </span>
                 </motion.div>
+
+                {/* ── Status Action Bar ── */}
+                {invoice.status !== 'paid' && (
+                    <motion.div
+                        className="detail-status-bar"
+                        variants={fadeIn}
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.5}
+                    >
+                        {invoice.status === 'draft' && (
+                            <button
+                                className="detail-status-btn detail-status-btn--send"
+                                onClick={() => handleStatusChange('sent')}
+                                disabled={statusLoading}
+                                id="btn-mark-sent"
+                            >
+                                <SendIcon />
+                                <span>{statusLoading ? 'Updating...' : 'Mark as Sent'}</span>
+                            </button>
+                        )}
+                        {(invoice.status === 'sent' || invoice.status === 'draft') && (
+                            <button
+                                className="detail-status-btn detail-status-btn--paid"
+                                onClick={() => handleStatusChange('paid')}
+                                disabled={statusLoading}
+                                id="btn-mark-paid"
+                            >
+                                <CheckIcon />
+                                <span>{statusLoading ? 'Updating...' : 'Mark as Paid'}</span>
+                            </button>
+                        )}
+                    </motion.div>
+                )}
 
                 {/* ── Action Buttons ── */}
                 <motion.div
