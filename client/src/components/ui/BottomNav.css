@@ -74,6 +74,7 @@
 
 .bottom-nav__item--center {
     position: relative;
+    top: -23px;
 }
 
 .bottom-nav__center-btn {
