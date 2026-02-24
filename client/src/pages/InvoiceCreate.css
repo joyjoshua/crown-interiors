@@ -84,6 +84,10 @@
     align-items: end;
 }
 
+.invoice-service-card__row>* {
+    min-width: 0;
+}
+
 .invoice-service-card__amount {
     display: flex;
     flex-direction: column;
@@ -389,13 +393,23 @@
 
 /* ── Responsive ── */
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
     .invoice-service-card__row {
         grid-template-columns: 1fr 1fr;
     }
 
+    .invoice-service-card__row>* {
+        min-width: 0;
+        overflow: hidden;
+    }
+
     .invoice-service-card__amount {
         grid-column: 1 / -1;
+    }
+
+    .invoice-service-card__amount-value {
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .invoice-preview__thead,
