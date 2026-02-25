@@ -10,23 +10,46 @@ const api = axios.create({
 });
 
 // Request interceptor — attach JWT
-api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().getAccessToken();
+api.interceptors.request.use(async (config) => {
+  const token = await useAuthStore.getState().getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Response interceptor — handle auth errors
+// Response interceptor — handle auth errors + retry on 429
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
+  async (error) => {
+    const { config, response } = error;
+
+    if (response?.status === 401) {
       // Token expired — logout and redirect
       useAuthStore.getState().logout();
       window.location.href = '/';
+      return Promise.reject(error);
     }
+
+    // Retry logic for 429 Too Many Requests
+    if (response?.status === 429) {
+      config.__retryCount = config.__retryCount || 0;
+      const maxRetries = 3;
+
+      if (config.__retryCount < maxRetries) {
+        config.__retryCount += 1;
+
+        // Respect Retry-After header, or use exponential backoff (1s, 2s, 4s)
+        const retryAfter = response.headers['retry-after'];
+        const delay = retryAfter
+          ? parseInt(retryAfter, 10) * 1000
+          : Math.pow(2, config.__retryCount - 1) * 1000;
+
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return api(config);
+      }
+    }
+
     return Promise.reject(error);
   }
 );
@@ -42,7 +65,7 @@ export const invoiceApi = {
   delete: (id) => api.delete(`/invoices/${id}`),
   duplicate: (id) => api.post(`/invoices/${id}/duplicate`),
   generatePdf: (id) => api.get(`/invoices/${id}/pdf`, { responseType: 'blob' }),
-  getStats: () => api.get('/invoices/stats'),
+  getStats: (config) => api.get('/invoices/stats', config),
 };
 
 export default api;

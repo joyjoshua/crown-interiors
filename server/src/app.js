@@ -53,12 +53,14 @@ app.use(
 );
 
 // ── Rate Limiting ──
-// Prevent abuse: max 100 requests per 15-minute window per IP
+// Prevent abuse: max 300 requests per 15-minute window per IP
+// Skipped in development to avoid hitting limits during hot-reloads
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
+  max: 300,
   standardHeaders: true, // Return rate limit info in `RateLimit-*` headers
   legacyHeaders: false, // Disable `X-RateLimit-*` headers
+  skip: () => process.env.NODE_ENV !== 'production',
   message: {
     success: false,
     error: 'Too many requests, please try again later',

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -29,11 +29,12 @@ const Login = () => {
         },
     });
 
-    // Redirect if already authenticated
-    if (isAuthenticated) {
-        navigate('/dashboard', { replace: true });
-        return null;
-    }
+    // Redirect if already authenticated (moved out of render phase)
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/dashboard', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
 
     const onSubmit = async (data) => {
         setIsLoading(true);

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -37,13 +37,37 @@ const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const hasFetched = useRef(false);
 
-    // Fetch dashboard stats on mount
+    // Fetch dashboard stats on mount (once only)
     useEffect(() => {
+        // Guard against StrictMode double-mount
+        if (hasFetched.current) return;
+        hasFetched.current = true;
+
+        const controller = new AbortController();
+
+        const fetchStats = async () => {
+            try {
+                setIsLoading(true);
+                setError(null);
+                const response = await invoiceApi.getStats({ signal: controller.signal });
+                setStats(response.data.data);
+            } catch (err) {
+                if (err.name === 'CanceledError' || err.name === 'AbortError') return;
+                console.error('Dashboard fetch error:', err);
+                setError('Failed to load dashboard data');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
         fetchStats();
+
+        return () => controller.abort();
     }, []);
 
-    const fetchStats = async () => {
+    const handleRetry = async () => {
         try {
             setIsLoading(true);
             setError(null);
@@ -123,7 +147,7 @@ const Dashboard = () => {
                         <Card>
                             <div className="dashboard__error">
                                 <p>⚠️ {error}</p>
-                                <Button variant="ghost" size="sm" onClick={fetchStats}>
+                                <Button variant="ghost" size="sm" onClick={handleRetry}>
                                     Retry
                                 </Button>
                             </div>
