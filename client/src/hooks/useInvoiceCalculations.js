@@ -1,19 +1,22 @@
 import { useMemo, useCallback } from 'react';
+import { useWatch } from 'react-hook-form';
 
 /**
  * Custom hook for real-time invoice calculations.
  *
- * Given the current form values (services array, tax toggle, tax %, discount),
- * computes and returns: subtotal, taxAmount, total.
+ * Uses `useWatch` instead of `watch` for targeted subscriptions,
+ * avoiding unnecessary re-renders of the entire form.
  *
- * @param {Function} watch - React Hook Form `watch` function
+ * @param {Object} control - React Hook Form `control` object
+ * @param {Function} watch - React Hook Form `watch` function (for updateLineAmount only)
  * @param {Function} setValue - React Hook Form `setValue` function
  */
-const useInvoiceCalculations = (watch, setValue) => {
-  const services = watch('services') || [];
-  const taxEnabled = watch('tax_enabled');
-  const taxPercentage = watch('tax_percentage') || 0;
-  const discountAmount = watch('discount_amount') || 0;
+const useInvoiceCalculations = (control, watch, setValue) => {
+  // Subscribe only to the fields needed for calculations
+  const services = useWatch({ control, name: 'services' }) || [];
+  const taxEnabled = useWatch({ control, name: 'tax_enabled' });
+  const taxPercentage = useWatch({ control, name: 'tax_percentage' }) || 0;
+  const discountAmount = useWatch({ control, name: 'discount_amount' }) || 0;
 
   // Recalculate line-item amounts (qty × rate)
   const updateLineAmount = useCallback(

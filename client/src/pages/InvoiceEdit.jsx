@@ -73,7 +73,7 @@ const InvoiceEdit = () => {
     });
 
     const { subtotal, taxAmount, total, updateLineAmount, syncToForm } =
-        useInvoiceCalculations(watch, setValue);
+        useInvoiceCalculations(control, watch, setValue);
 
     // ── Fetch existing invoice and pre-fill ──
     useEffect(() => {
@@ -122,7 +122,7 @@ const InvoiceEdit = () => {
                 });
             } catch (err) {
                 console.error('Fetch invoice for edit error:', err);
-                setFetchError('Could not load invoice. Please go back and try again.');
+                setFetchError(t('invoice.couldNotLoad'));
             } finally {
                 setFetchLoading(false);
             }
@@ -196,8 +196,8 @@ const InvoiceEdit = () => {
             await invoiceApi.update(id, payload);
             toast.success(
                 docType === 'estimate'
-                    ? 'Estimate updated!'
-                    : t('success.invoiceCreated').replace('Created', 'Updated')
+                    ? t('success.estimateUpdated')
+                    : t('success.invoiceUpdated')
             );
             navigate(`/invoice/${id}`, { replace: true });
         } catch (err) {
@@ -252,7 +252,7 @@ const InvoiceEdit = () => {
                             ⚠️ {fetchError}
                         </p>
                         <Button variant="ghost" fullWidth onClick={() => navigate(-1)}>
-                            ← Go Back
+                            {t('invoice.goBack')}
                         </Button>
                     </Card>
                 </div>
@@ -265,7 +265,7 @@ const InvoiceEdit = () => {
             <TopBar
                 title={
                     docType === 'estimate'
-                        ? 'Edit Estimate'
+                        ? t('invoice.editEstimate')
                         : t('invoice.edit')
                 }
                 titleTamil="விலைப்பட்டியல் திருத்து"
@@ -291,7 +291,7 @@ const InvoiceEdit = () => {
                             {step === 0 && (
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step1')}</h3>
-                                    <p className="invoice-step__desc">Edit customer information</p>
+                                    <p className="invoice-step__desc">{t('invoice.step1EditDesc')}</p>
 
                                     <div className="invoice-step__fields">
                                         <Input
@@ -303,7 +303,7 @@ const InvoiceEdit = () => {
                                             error={errors.customer_name?.message}
                                             {...register('customer_name', {
                                                 required: t('errors.required'),
-                                                minLength: { value: 2, message: 'Min 2 characters' },
+                                                minLength: { value: 2, message: t('invoice.min2Chars') },
                                             })}
                                         />
                                         <Input
@@ -353,7 +353,7 @@ const InvoiceEdit = () => {
                             {step === 1 && (
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step2')}</h3>
-                                    <p className="invoice-step__desc">Edit services and amounts</p>
+                                    <p className="invoice-step__desc">{t('invoice.step2EditDesc')}</p>
 
                                     <div className="invoice-services">
                                         {fields.map((field, index) => (
@@ -384,7 +384,7 @@ const InvoiceEdit = () => {
                                                     error={errors.services?.[index]?.description?.message}
                                                     {...register(`services.${index}.description`, {
                                                         required: t('errors.required'),
-                                                        minLength: { value: 2, message: 'Min 2 characters' },
+                                                        minLength: { value: 2, message: t('invoice.min2Chars') },
                                                     })}
                                                 />
 
@@ -504,7 +504,7 @@ const InvoiceEdit = () => {
                             {step === 2 && (
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step3')}</h3>
-                                    <p className="invoice-step__desc">Update dates and notes</p>
+                                    <p className="invoice-step__desc">{t('invoice.step3EditDesc')}</p>
 
                                     <div className="invoice-step__fields">
                                         <Input
@@ -542,7 +542,7 @@ const InvoiceEdit = () => {
                             {step === 3 && (
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step4')}</h3>
-                                    <p className="invoice-step__desc">Review your changes</p>
+                                    <p className="invoice-step__desc">{t('invoice.step4EditDesc')}</p>
 
                                     <Card variant="elevated" className="invoice-preview">
                                         <div className="invoice-preview__header">
@@ -560,7 +560,7 @@ const InvoiceEdit = () => {
                                         <div className="invoice-preview__divider" />
 
                                         <div className="invoice-preview__section">
-                                            <p className="invoice-preview__label">Customer</p>
+                                            <p className="invoice-preview__label">{t('invoice.customer')}</p>
                                             <p className="invoice-preview__value">{watch('customer_name')}</p>
                                             <p className="invoice-preview__sub">{watch('customer_phone')}</p>
                                             {watch('customer_address') && <p className="invoice-preview__sub">{watch('customer_address')}</p>}
@@ -570,13 +570,13 @@ const InvoiceEdit = () => {
                                         <div className="invoice-preview__divider" />
 
                                         <div className="invoice-preview__section">
-                                            <p className="invoice-preview__label">Services</p>
+                                            <p className="invoice-preview__label">{t('invoice.services')}</p>
                                             <div className="invoice-preview__table">
                                                 <div className="invoice-preview__thead">
-                                                    <span>Item</span>
-                                                    <span>Qty</span>
-                                                    <span>Rate</span>
-                                                    <span>Amt</span>
+                                                    <span>{t('invoice.item')}</span>
+                                                    <span>{t('invoice.quantity')}</span>
+                                                    <span>{t('invoice.rate')}</span>
+                                                    <span>{t('invoice.amt')}</span>
                                                 </div>
                                                 {watch('services')?.map((s, i) => (
                                                     <div key={i} className="invoice-preview__trow">
@@ -593,7 +593,7 @@ const InvoiceEdit = () => {
 
                                         <div className="invoice-preview__totals">
                                             <div className="invoice-preview__totals-row">
-                                                <span>Subtotal</span>
+                                                <span>{t('invoice.subtotal')}</span>
                                                 <span>{formatCurrency(subtotal, false)}</span>
                                             </div>
                                             {watch('tax_enabled') && (
@@ -604,13 +604,13 @@ const InvoiceEdit = () => {
                                             )}
                                             {Number(watch('discount_amount')) > 0 && (
                                                 <div className="invoice-preview__totals-row invoice-preview__totals-row--discount">
-                                                    <span>Discount</span>
+                                                    <span>{t('invoice.discount')}</span>
                                                     <span>-{formatCurrency(watch('discount_amount'), false)}</span>
                                                 </div>
                                             )}
                                             <div className="invoice-preview__totals-divider" />
                                             <div className="invoice-preview__totals-row invoice-preview__totals-row--total">
-                                                <span>Total</span>
+                                                <span>{t('invoice.total')}</span>
                                                 <span>{formatCurrency(total)}</span>
                                             </div>
                                         </div>
@@ -619,14 +619,14 @@ const InvoiceEdit = () => {
                                             <>
                                                 <div className="invoice-preview__divider" />
                                                 <div className="invoice-preview__section">
-                                                    <p className="invoice-preview__label">Notes</p>
+                                                    <p className="invoice-preview__label">{t('invoice.notes')}</p>
                                                     <p className="invoice-preview__notes">{watch('notes')}</p>
                                                 </div>
                                             </>
                                         )}
                                         {watch('due_date') && (
                                             <div className="invoice-preview__section">
-                                                <p className="invoice-preview__label">Due Date</p>
+                                                <p className="invoice-preview__label">{t('invoice.dueDate')}</p>
                                                 <p className="invoice-preview__value">{formatDate(watch('due_date'))}</p>
                                             </div>
                                         )}
@@ -662,7 +662,7 @@ const InvoiceEdit = () => {
                                 }
                                 id="btn-save-invoice"
                             >
-                                Save Changes
+                                {t('invoice.saveChanges')}
                             </Button>
                         )}
                     </div>

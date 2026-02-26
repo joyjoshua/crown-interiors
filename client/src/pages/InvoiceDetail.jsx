@@ -69,17 +69,17 @@ const SendIcon = () => (
 
 // ── Status helpers ──
 
-const getStatusBadge = (status) => {
+const getStatusBadge = (status, t) => {
     const map = {
-        draft: { variant: 'default', label: 'Draft' },
-        sent: { variant: 'info', label: 'Sent' },
-        paid: { variant: 'success', label: 'Paid' },
-        pending: { variant: 'warning', label: 'Pending' },
-        overdue: { variant: 'error', label: 'Overdue' },
-        cancelled: { variant: 'error', label: 'Cancelled' },
+        draft: { variant: 'default', key: 'status.draft' },
+        sent: { variant: 'info', key: 'status.sent' },
+        paid: { variant: 'success', key: 'status.paid' },
+        pending: { variant: 'warning', key: 'status.pending' },
+        overdue: { variant: 'error', key: 'status.overdue' },
+        cancelled: { variant: 'error', key: 'status.cancelled' },
     };
     const config = map[status] || map.draft;
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    return <Badge variant={config.variant}>{t(config.key)}</Badge>;
 };
 
 // ── Page animation ──
@@ -139,7 +139,7 @@ const InvoiceDetail = () => {
             setStatusLoading(true);
             const response = await invoiceApi.updateStatus(id, newStatus);
             setInvoice(response.data.data);
-            toast.success(`Marked as ${newStatus}`);
+            toast.success(t('status.markedAs', { status: newStatus }));
         } catch (err) {
             console.error('Status update error:', err);
             toast.error(t('errors.serverError'));
@@ -306,15 +306,15 @@ const InvoiceDetail = () => {
                 <div className="page">
                     <div className="detail-error">
                         <div className="detail-error__icon">📄</div>
-                        <h3 className="detail-error__title">Invoice Not Found</h3>
+                        <h3 className="detail-error__title">{t('invoice.notFound')}</h3>
                         <p className="detail-error__message">
-                            {error || 'This invoice does not exist or has been deleted.'}
+                            {error || t('invoice.notFoundMessage')}
                         </p>
                         <Button
                             variant="primary"
                             onClick={() => navigate('/dashboard')}
                         >
-                            Go to Dashboard
+                            {t('invoice.goToDashboard')}
                         </Button>
                     </div>
                 </div>
@@ -356,7 +356,7 @@ const InvoiceDetail = () => {
                         <span className="detail-status__number">
                             {invoice.invoice_number}
                         </span>
-                        {getStatusBadge(invoice.status)}
+                        {getStatusBadge(invoice.status, t)}
                     </div>
                     <span className="detail-status__date">
                         {formatDate(invoice.invoice_date)}
@@ -380,7 +380,7 @@ const InvoiceDetail = () => {
                                 id="btn-mark-sent"
                             >
                                 <SendIcon />
-                                <span>{statusLoading ? 'Updating...' : 'Mark as Sent'}</span>
+                                <span>{statusLoading ? t('status.updating') : t('status.markSent')}</span>
                             </button>
                         )}
                         {(invoice.status === 'sent' || invoice.status === 'draft') && (
@@ -391,7 +391,7 @@ const InvoiceDetail = () => {
                                 id="btn-mark-paid"
                             >
                                 <CheckIcon />
-                                <span>{statusLoading ? 'Updating...' : 'Mark as Paid'}</span>
+                                <span>{statusLoading ? t('status.updating') : t('status.markPaid')}</span>
                             </button>
                         )}
                     </motion.div>
@@ -415,7 +415,7 @@ const InvoiceDetail = () => {
                             <DownloadIcon />
                         </span>
                         <span className="detail-action-btn__label">
-                            {pdfLoading ? 'Generating...' : t('actions.download')}
+                            {pdfLoading ? t('loading.generating') : t('actions.download')}
                         </span>
                     </button>
 
@@ -429,7 +429,7 @@ const InvoiceDetail = () => {
                             <ShareIcon />
                         </span>
                         <span className="detail-action-btn__label">
-                            {shareLoading ? 'Sharing...' : t('actions.share')}
+                            {shareLoading ? t('loading.sharing') : t('actions.share')}
                         </span>
                     </button>
 
@@ -456,7 +456,7 @@ const InvoiceDetail = () => {
                             <DuplicateIcon />
                         </span>
                         <span className="detail-action-btn__label">
-                            {duplicateLoading ? 'Duplicating...' : t('actions.duplicate')}
+                            {duplicateLoading ? t('loading.duplicating') : t('actions.duplicate')}
                         </span>
                     </button>
                 </motion.div>
@@ -476,14 +476,14 @@ const InvoiceDetail = () => {
                             <p className="detail-preview__type">{docLabel}</p>
                         </div>
                         <div className="detail-preview__date-block">
-                            <p className="detail-preview__date-label">Date</p>
+                            <p className="detail-preview__date-label">{t('invoice.date')}</p>
                             <p className="detail-preview__date">
                                 {formatDate(invoice.invoice_date)}
                             </p>
                             {invoice.due_date && (
                                 <>
                                     <p className="detail-preview__date-label" style={{ marginTop: 'var(--space-2)' }}>
-                                        Due Date
+                                        {t('invoice.dueDate')}
                                     </p>
                                     <p className="detail-preview__date">
                                         {formatDate(invoice.due_date)}
@@ -497,7 +497,7 @@ const InvoiceDetail = () => {
 
                     {/* Customer */}
                     <div className="detail-preview__section">
-                        <p className="detail-preview__label">Customer</p>
+                        <p className="detail-preview__label">{t('invoice.customer')}</p>
                         <p className="detail-preview__value">{invoice.customer_name}</p>
                         <p className="detail-preview__sub">{invoice.customer_phone}</p>
                         {invoice.customer_address && (
@@ -512,13 +512,13 @@ const InvoiceDetail = () => {
 
                     {/* Services Table */}
                     <div className="detail-preview__section">
-                        <p className="detail-preview__label">Services</p>
+                        <p className="detail-preview__label">{t('invoice.services')}</p>
                         <div className="detail-preview__table">
                             <div className="detail-preview__thead">
-                                <span>Item</span>
-                                <span>Qty</span>
-                                <span>Rate</span>
-                                <span>Amt</span>
+                                <span>{t('invoice.item')}</span>
+                                <span>{t('invoice.quantity')}</span>
+                                <span>{t('invoice.rate')}</span>
+                                <span>{t('invoice.amt')}</span>
                             </div>
                             {services.map((s, i) => (
                                 <div key={i} className="detail-preview__trow">
@@ -543,7 +543,7 @@ const InvoiceDetail = () => {
                     {/* Totals */}
                     <div className="detail-preview__totals">
                         <div className="detail-preview__totals-row">
-                            <span>Subtotal</span>
+                            <span>{t('invoice.subtotal')}</span>
                             <span>{formatCurrency(invoice.subtotal, false)}</span>
                         </div>
                         {taxEnabled && (
@@ -554,7 +554,7 @@ const InvoiceDetail = () => {
                         )}
                         {Number(invoice.discount_amount) > 0 && (
                             <div className="detail-preview__totals-row detail-preview__totals-row--discount">
-                                <span>Discount</span>
+                                <span>{t('invoice.discount')}</span>
                                 <span>-{formatCurrency(invoice.discount_amount, false)}</span>
                             </div>
                         )}
@@ -562,7 +562,7 @@ const InvoiceDetail = () => {
                         <div className="detail-preview__totals-divider" />
 
                         <div className="detail-preview__totals-row detail-preview__totals-row--total">
-                            <span>Total</span>
+                            <span>{t('invoice.total')}</span>
                             <span>{formatCurrency(invoice.total_amount)}</span>
                         </div>
                     </div>
@@ -572,7 +572,7 @@ const InvoiceDetail = () => {
                         <>
                             <div className="detail-preview__divider" />
                             <div className="detail-preview__section">
-                                <p className="detail-preview__label">Notes</p>
+                                <p className="detail-preview__label">{t('invoice.notes')}</p>
                                 <p className="detail-preview__notes">{invoice.notes}</p>
                             </div>
                         </>

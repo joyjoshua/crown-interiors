@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import TopBar from '../components/ui/TopBar';
@@ -77,7 +77,7 @@ const InvoiceCreate = () => {
 
     // Auto-calculations
     const { subtotal, taxAmount, total, updateLineAmount, syncToForm } =
-        useInvoiceCalculations(watch, setValue);
+        useInvoiceCalculations(control, watch, setValue);
 
     // Load draft on mount
     useEffect(() => {
@@ -86,12 +86,12 @@ const InvoiceCreate = () => {
             Object.entries(draft).forEach(([key, value]) => {
                 setValue(key, value);
             });
-            toast('📝 Draft restored', { duration: 2000 });
+            toast(t('toast.draftRestored'), { duration: 2000 });
         }
     }, []);
 
     // Auto-save draft on form changes (debounced)
-    const formValues = watch();
+    const formValues = useWatch({ control });
     useEffect(() => {
         const timer = setTimeout(() => {
             if (formValues.customer_name || formValues.services?.[0]?.description) {
@@ -99,7 +99,7 @@ const InvoiceCreate = () => {
             }
         }, 2000);
         return () => clearTimeout(timer);
-    }, [JSON.stringify(formValues)]);
+    }, [formValues, saveDraft]);
 
     // Step validation before advancing
     const validateStep = async () => {
@@ -216,7 +216,7 @@ const InvoiceCreate = () => {
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step1')}</h3>
                                     <p className="invoice-step__desc">
-                                        Enter the customer's information
+                                        {t('invoice.step1Desc')}
                                     </p>
 
                                     <div className="invoice-step__fields">
@@ -231,7 +231,7 @@ const InvoiceCreate = () => {
                                                 required: t('errors.required'),
                                                 minLength: {
                                                     value: 2,
-                                                    message: 'Name must be at least 2 characters',
+                                                    message: t('invoice.minChars'),
                                                 },
                                             })}
                                         />
@@ -287,7 +287,7 @@ const InvoiceCreate = () => {
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step2')}</h3>
                                     <p className="invoice-step__desc">
-                                        Add line items for your services
+                                        {t('invoice.step2Desc')}
                                     </p>
 
                                     <div className="invoice-services">
@@ -319,7 +319,7 @@ const InvoiceCreate = () => {
                                                     error={errors.services?.[index]?.description?.message}
                                                     {...register(`services.${index}.description`, {
                                                         required: t('errors.required'),
-                                                        minLength: { value: 2, message: 'Min 2 characters' },
+                                                        minLength: { value: 2, message: t('invoice.min2Chars') },
                                                     })}
                                                 />
 
@@ -451,7 +451,7 @@ const InvoiceCreate = () => {
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step3')}</h3>
                                     <p className="invoice-step__desc">
-                                        Set dates and add any notes
+                                        {t('invoice.step3Desc')}
                                     </p>
 
                                     <div className="invoice-step__fields">
@@ -493,7 +493,7 @@ const InvoiceCreate = () => {
                                 <div className="invoice-step">
                                     <h3 className="invoice-step__title">{t('invoice.step4')}</h3>
                                     <p className="invoice-step__desc">
-                                        Review before creating
+                                        {t('invoice.step4Desc')}
                                     </p>
 
                                     <Card variant="elevated" className="invoice-preview">
@@ -514,7 +514,7 @@ const InvoiceCreate = () => {
 
                                         {/* Customer */}
                                         <div className="invoice-preview__section">
-                                            <p className="invoice-preview__label">Customer</p>
+                                            <p className="invoice-preview__label">{t('invoice.customer')}</p>
                                             <p className="invoice-preview__value">{watch('customer_name')}</p>
                                             <p className="invoice-preview__sub">{watch('customer_phone')}</p>
                                             {watch('customer_address') && (
@@ -529,13 +529,13 @@ const InvoiceCreate = () => {
 
                                         {/* Services Table */}
                                         <div className="invoice-preview__section">
-                                            <p className="invoice-preview__label">Services</p>
+                                            <p className="invoice-preview__label">{t('invoice.services')}</p>
                                             <div className="invoice-preview__table">
                                                 <div className="invoice-preview__thead">
-                                                    <span>Item</span>
-                                                    <span>Qty</span>
-                                                    <span>Rate</span>
-                                                    <span>Amt</span>
+                                                    <span>{t('invoice.item')}</span>
+                                                    <span>{t('invoice.quantity')}</span>
+                                                    <span>{t('invoice.rate')}</span>
+                                                    <span>{t('invoice.amt')}</span>
                                                 </div>
                                                 {watch('services')?.map((s, i) => (
                                                     <div key={i} className="invoice-preview__trow">
@@ -553,7 +553,7 @@ const InvoiceCreate = () => {
                                         {/* Totals */}
                                         <div className="invoice-preview__totals">
                                             <div className="invoice-preview__totals-row">
-                                                <span>Subtotal</span>
+                                                <span>{t('invoice.subtotal')}</span>
                                                 <span>{formatCurrency(subtotal, false)}</span>
                                             </div>
                                             {watch('tax_enabled') && (
@@ -564,13 +564,13 @@ const InvoiceCreate = () => {
                                             )}
                                             {Number(watch('discount_amount')) > 0 && (
                                                 <div className="invoice-preview__totals-row invoice-preview__totals-row--discount">
-                                                    <span>Discount</span>
+                                                    <span>{t('invoice.discount')}</span>
                                                     <span>-{formatCurrency(watch('discount_amount'), false)}</span>
                                                 </div>
                                             )}
                                             <div className="invoice-preview__totals-divider" />
                                             <div className="invoice-preview__totals-row invoice-preview__totals-row--total">
-                                                <span>Total</span>
+                                                <span>{t('invoice.total')}</span>
                                                 <span>{formatCurrency(total)}</span>
                                             </div>
                                         </div>
@@ -580,7 +580,7 @@ const InvoiceCreate = () => {
                                             <>
                                                 <div className="invoice-preview__divider" />
                                                 <div className="invoice-preview__section">
-                                                    <p className="invoice-preview__label">Notes</p>
+                                                    <p className="invoice-preview__label">{t('invoice.notes')}</p>
                                                     <p className="invoice-preview__notes">{watch('notes')}</p>
                                                 </div>
                                             </>
@@ -589,7 +589,7 @@ const InvoiceCreate = () => {
                                         {/* Due Date */}
                                         {watch('due_date') && (
                                             <div className="invoice-preview__section">
-                                                <p className="invoice-preview__label">Due Date</p>
+                                                <p className="invoice-preview__label">{t('invoice.dueDate')}</p>
                                                 <p className="invoice-preview__value">{formatDate(watch('due_date'))}</p>
                                             </div>
                                         )}
@@ -636,7 +636,7 @@ const InvoiceCreate = () => {
                                 }
                             >
                                 {docType === 'estimate'
-                                    ? t('invoice.create').replace('Invoice', 'Estimate')
+                                    ? t('invoice.createEstimateBtn')
                                     : t('invoice.create')}
                             </Button>
                         )}

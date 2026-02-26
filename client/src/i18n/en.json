@@ -10,17 +10,21 @@
         "email": "Email",
         "password": "Password",
         "submit": "Login",
-        "error": "Invalid email or password"
+        "error": "Invalid email or password",
+        "welcomeBack": "Welcome back! 🎉"
     },
     "dashboard": {
         "greeting": "Good {{timeOfDay}}, {{name}}",
         "quickStats": "Quick Stats",
         "invoicesThisMonth": "Invoices This Month",
         "revenueThisMonth": "Revenue This Month",
+        "totalInvoices": "Total Invoices",
+        "pendingAmount": "Pending Amount",
         "createInvoice": "Create New Invoice",
         "createEstimate": "Create New Estimate",
         "recentInvoices": "Recent Invoices",
-        "viewAll": "View All"
+        "viewAll": "View All",
+        "loggedOut": "Logged out"
     },
     "invoice": {
         "title": "Invoice",
@@ -28,10 +32,19 @@
         "new": "New Invoice",
         "newEstimate": "New Estimate",
         "edit": "Edit Invoice",
+        "editEstimate": "Edit Estimate",
         "step1": "Customer",
         "step2": "Services",
         "step3": "Details",
         "step4": "Preview",
+        "step1Desc": "Enter the customer's information",
+        "step1EditDesc": "Edit customer information",
+        "step2Desc": "Add line items for your services",
+        "step2EditDesc": "Edit services and amounts",
+        "step3Desc": "Set dates and add any notes",
+        "step3EditDesc": "Update dates and notes",
+        "step4Desc": "Review before creating",
+        "step4EditDesc": "Review your changes",
         "customerName": "Customer Name",
         "phone": "Phone Number",
         "address": "Address",
@@ -53,12 +66,46 @@
         "previous": "Previous",
         "preview": "Preview",
         "create": "Create Invoice",
+        "createEstimateBtn": "Create Estimate",
         "update": "Update Invoice",
-        "moreOptions": "More Options"
+        "saveChanges": "Save Changes",
+        "moreOptions": "More Options",
+        "customer": "Customer",
+        "services": "Services",
+        "item": "Item",
+        "amt": "Amt",
+        "notFound": "Invoice Not Found",
+        "notFoundMessage": "This invoice does not exist or has been deleted.",
+        "goToDashboard": "Go to Dashboard",
+        "goBack": "← Go Back",
+        "couldNotLoad": "Could not load invoice. Please go back and try again.",
+        "minChars": "Name must be at least 2 characters",
+        "min2Chars": "Min 2 characters",
+        "min1": "Min 1",
+        "min0": "Min 0"
+    },
+    "status": {
+        "draft": "Draft",
+        "sent": "Sent",
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue",
+        "cancelled": "Cancelled",
+        "markSent": "Mark as Sent",
+        "markPaid": "Mark as Paid",
+        "updating": "Updating...",
+        "markedAs": "Marked as {{status}}"
+    },
+    "loading": {
+        "generating": "Generating...",
+        "sharing": "Sharing...",
+        "duplicating": "Duplicating..."
     },
     "success": {
         "invoiceCreated": "Invoice Created!",
         "estimateCreated": "Estimate Created!",
+        "invoiceUpdated": "Invoice Updated!",
+        "estimateUpdated": "Estimate Updated!",
         "shareWhatsApp": "Share via WhatsApp",
         "downloadPDF": "Download PDF",
         "createAnother": "Create Another"
@@ -73,7 +120,10 @@
         "pending": "Pending",
         "draft": "Draft",
         "noInvoices": "No invoices yet",
-        "noInvoicesSubtext": "Create your first invoice to get started"
+        "noInvoicesSubtext": "Create your first invoice to get started",
+        "couldNotLoad": "Could not load invoices",
+        "noResults": "No results found",
+        "noResultsSubtext": "Try adjusting your search or filters"
     },
     "actions": {
         "download": "Download",
@@ -85,7 +135,8 @@
         "confirm": "Confirm",
         "save": "Save",
         "undo": "Undo",
-        "logout": "Logout"
+        "logout": "Logout",
+        "retry": "Retry"
     },
     "confirm": {
         "deleteTitle": "Delete Invoice?",
@@ -98,7 +149,8 @@
         "invalidEmail": "Invalid email address",
         "invalidPhone": "Invalid phone number",
         "minServices": "Add at least one service",
-        "serverError": "Something went wrong. Please try again."
+        "serverError": "Something went wrong. Please try again.",
+        "loadDashboard": "Failed to load dashboard data"
     },
     "toast": {
         "saved": "Invoice saved!",
@@ -106,6 +158,7 @@
         "duplicated": "Invoice duplicated",
         "downloaded": "PDF downloaded",
         "shared": "Opened WhatsApp",
-        "draftSaved": "Draft auto-saved"
+        "draftSaved": "Draft auto-saved",
+        "draftRestored": "📝 Draft restored"
     }
 }

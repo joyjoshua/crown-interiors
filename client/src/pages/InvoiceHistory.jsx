@@ -16,18 +16,18 @@ import { formatRelativeDate } from '../utils/formatDate';
 import './InvoiceHistory.css';
 
 // ── Status config ──
-const STATUS_BADGE = {
-    paid: { variant: 'success', label: 'Paid' },
-    sent: { variant: 'info', label: 'Sent' },
-    pending: { variant: 'warning', label: 'Pending' },
-    draft: { variant: 'default', label: 'Draft' },
-    overdue: { variant: 'error', label: 'Overdue' },
-    cancelled: { variant: 'error', label: 'Cancelled' },
+const STATUS_BADGE_MAP = {
+    paid: { variant: 'success', key: 'status.paid' },
+    sent: { variant: 'info', key: 'status.sent' },
+    pending: { variant: 'warning', key: 'status.pending' },
+    draft: { variant: 'default', key: 'status.draft' },
+    overdue: { variant: 'error', key: 'status.overdue' },
+    cancelled: { variant: 'error', key: 'status.cancelled' },
 };
 
-const getStatusBadge = (status) => {
-    const cfg = STATUS_BADGE[status] || STATUS_BADGE.draft;
-    return <Badge variant={cfg.variant}>{cfg.label}</Badge>;
+const getStatusBadge = (status, t) => {
+    const cfg = STATUS_BADGE_MAP[status] || STATUS_BADGE_MAP.draft;
+    return <Badge variant={cfg.variant}>{t(cfg.key)}</Badge>;
 };
 
 // ── Sort options ──
@@ -102,7 +102,7 @@ const InvoiceHistory = () => {
                 setInvoices(list);
             } catch (err) {
                 console.error('History fetch error:', err);
-                setError('Failed to load invoices.');
+                setError(t('errors.serverError'));
             } finally {
                 setLoading(false);
             }
@@ -188,10 +188,10 @@ const InvoiceHistory = () => {
                 <div className="page">
                     <EmptyState
                         icon="⚠️"
-                        title="Could not load invoices"
+                        title={t('history.couldNotLoad')}
                         subtitle={error}
                         action={{
-                            label: 'Try Again',
+                            label: t('actions.retry'),
                             onClick: () => window.location.reload(),
                         }}
                     />
@@ -313,17 +313,17 @@ const InvoiceHistory = () => {
                         title={
                             invoices.length === 0
                                 ? t('history.noInvoices')
-                                : 'No results found'
+                                : t('history.noResults')
                         }
                         subtitle={
                             invoices.length === 0
                                 ? t('history.noInvoicesSubtext')
-                                : 'Try adjusting your search or filters'
+                                : t('history.noResultsSubtext')
                         }
                         action={
                             invoices.length === 0
-                                ? { label: 'Create Invoice', onClick: () => navigate('/invoice/new') }
-                                : { label: 'Clear filters', onClick: () => { resetFilters(); handleSearchClear(); } }
+                                ? { label: t('dashboard.createInvoice'), onClick: () => navigate('/invoice/new') }
+                                : { label: t('actions.retry'), onClick: () => { resetFilters(); handleSearchClear(); } }
                         }
                     />
                 ) : (
@@ -355,12 +355,12 @@ const InvoiceHistory = () => {
                                                     </span>
                                                     {invoice.document_type === 'estimate' && (
                                                         <span className="history-card__type">
-                                                            · Estimate
+                                                            · {t('invoice.estimate')}
                                                         </span>
                                                     )}
                                                 </p>
                                             </div>
-                                            {getStatusBadge(invoice.status)}
+                                            {getStatusBadge(invoice.status, t)}
                                         </div>
 
                                         {/* ── Bottom row ── */}

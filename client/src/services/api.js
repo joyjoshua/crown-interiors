@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore, _refreshSessionOnce } from '../store/authStore';
 
 const api = axios.create({
   baseURL: (import.meta.env.VITE_API_URL || 'http://localhost:3001') + '/api',
@@ -9,11 +9,15 @@ const api = axios.create({
   },
 });
 
-// Request interceptor — attach JWT
+// Request interceptor — attach a FRESH JWT
 api.interceptors.request.use(async (config) => {
   const token = await useAuthStore.getState().getAccessToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (config.headers && typeof config.headers.set === 'function') {
+      config.headers.set('Authorization', `Bearer ${token}`);
+    } else {
+      config.headers = { ...config.headers, Authorization: `Bearer ${token}` };
+    }
   }
   return config;
 });
@@ -24,14 +28,42 @@ api.interceptors.response.use(
   async (error) => {
     const { config, response } = error;
 
-    if (response?.status === 401) {
-      // Token expired — logout and redirect
+    // ── 401 Unauthorized — try to refresh the token once before giving up ──
+    if (response?.status === 401 && !config.__authRetried) {
+      config.__authRetried = true;
+
+      try {
+        // Use the shared refresh mutex — prevents concurrent refresh storms
+        // when multiple 401s arrive at the same time
+        const { data: { session } } = await _refreshSessionOnce();
+
+        if (session?.access_token) {
+          // Update in-memory store with the refreshed session
+          useAuthStore.setState({
+            session,
+            user: session.user,
+            isAuthenticated: true,
+          });
+
+          // Retry the original request with the fresh token
+          if (config.headers && typeof config.headers.set === 'function') {
+            config.headers.set('Authorization', `Bearer ${session.access_token}`);
+          } else {
+            config.headers = { ...config.headers, Authorization: `Bearer ${session.access_token}` };
+          }
+          return api(config);
+        }
+      } catch {
+        // Refresh failed — session is truly expired
+      }
+
+      // Refresh failed or no session — log out gracefully via React Router
+      // Do NOT use window.location.href — it kills in-flight requests
       useAuthStore.getState().logout();
-      window.location.href = '/';
       return Promise.reject(error);
     }
 
-    // Retry logic for 429 Too Many Requests
+    // ── 429 Too Many Requests — retry with backoff ──
     if (response?.status === 429) {
       config.__retryCount = config.__retryCount || 0;
       const maxRetries = 3;

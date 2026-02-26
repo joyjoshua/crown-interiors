@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -37,14 +37,9 @@ const Dashboard = () => {
     const [stats, setStats] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const hasFetched = useRef(false);
 
-    // Fetch dashboard stats on mount (once only)
+    // Fetch dashboard stats on mount
     useEffect(() => {
-        // Guard against StrictMode double-mount
-        if (hasFetched.current) return;
-        hasFetched.current = true;
-
         const controller = new AbortController();
 
         const fetchStats = async () => {
@@ -52,20 +47,24 @@ const Dashboard = () => {
                 setIsLoading(true);
                 setError(null);
                 const response = await invoiceApi.getStats({ signal: controller.signal });
-                setStats(response.data.data);
+                if (!controller.signal.aborted) {
+                    setStats(response.data.data);
+                }
             } catch (err) {
                 if (err.name === 'CanceledError' || err.name === 'AbortError') return;
                 console.error('Dashboard fetch error:', err);
-                setError('Failed to load dashboard data');
+                setError(t('errors.loadDashboard'));
             } finally {
-                setIsLoading(false);
+                if (!controller.signal.aborted) {
+                    setIsLoading(false);
+                }
             }
         };
 
         fetchStats();
 
         return () => controller.abort();
-    }, []);
+    }, [t]);
 
     const handleRetry = async () => {
         try {
@@ -83,7 +82,7 @@ const Dashboard = () => {
 
     const handleLogout = async () => {
         await logout();
-        toast.success('Logged out');
+        toast.success(t('dashboard.loggedOut'));
         navigate('/', { replace: true });
     };
 
@@ -190,7 +189,7 @@ const Dashboard = () => {
                                 transition={{ delay: 0.15 }}
                             >
                                 <Card variant="elevated">
-                                    <p className="dashboard__stat-label">Total Invoices</p>
+                                    <p className="dashboard__stat-label">{t('dashboard.totalInvoices')}</p>
                                     <p className="dashboard__stat-value">
                                         {stats?.total_invoices ?? 0}
                                     </p>
@@ -203,7 +202,7 @@ const Dashboard = () => {
                                 transition={{ delay: 0.2 }}
                             >
                                 <Card variant="elevated">
-                                    <p className="dashboard__stat-label">Pending Amount</p>
+                                    <p className="dashboard__stat-label">{t('dashboard.pendingAmount')}</p>
                                     <p className="dashboard__stat-value dashboard__stat-value--pending">
                                         {formatCurrencyShort(stats?.pending_amount ?? 0)}
                                     </p>
